@@ -1,10 +1,10 @@
-/*import { fetchCart, fetchUser } from "../utils/fetchLocalStorageData";
+import { localStorageUser } from "../utils/localStorage";
 
-const userInfo = fetchUser();
-const cartInfo = fetchCart();*/
+const userInfo = localStorageUser();
+/*const cartInfo = fetchCart();*/
 
 export const initialState = {
-  user: [],
+  user: userInfo,
   foodItems: null,
   cartShow: false,
   //cartItems: cartInfo,

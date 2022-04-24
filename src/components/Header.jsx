@@ -1,5 +1,3 @@
-// react hooks
-import {useState} from 'react'
 // reac router dom
 import {Link} from 'react-router-dom'
 // animations
@@ -18,8 +16,7 @@ import {MdShoppingBasket} from 'react-icons/md';
 
  const Header = () => {
 
-    const [islog, setislog] = useState(false);
-
+  
   const {loginPopUpGoogle} = useLoginGoogleFireBase()
 
   const [{ user }, dispatch] = useStateValue();
@@ -35,9 +32,8 @@ import {MdShoppingBasket} from 'react-icons/md';
         type: actionType.SET_USER,
         user: providerData[0],
       });
-
-      setislog(true)
-      
+      sessionStorage.setItem("user", JSON.stringify(providerData[0]));
+    
     } 
 
   return (
@@ -78,7 +74,7 @@ import {MdShoppingBasket} from 'react-icons/md';
         <div className="relative">
           <motion.img 
           whileTap={{scale:0.6}}
-          src={islog? user.photoURL : Avatar}
+          src={user? user.photoURL : Avatar}
           className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full"
           alt="userprofile"
           onClick={() => login()}
@@ -101,7 +97,7 @@ import {MdShoppingBasket} from 'react-icons/md';
       <div className="relative">
           <motion.img 
           whileTap={{scale:0.6}}
-          src={ islog ? user.photoURL : Avatar }
+          src={ user ? user.photoURL : Avatar }
           className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full"
           alt="userprofile"
           onClick={() => login()}
