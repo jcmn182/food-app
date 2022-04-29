@@ -5,36 +5,57 @@ import {motion} from 'framer-motion';
 //imgs
 import Logo from '../img/logo.png';
 import Avatar from '../img/avatar.png';
+//react Hooks
+import {useState} from 'react';
 //context
 import { useStateValue } from "../context/stateProvider";
 import { actionType } from "../context/reducer";
-//hooks
+// custom hooks
 import {useLoginGoogleFireBase} from '../Hooks/firebaseHooks/useLoginGoogleFireBase.js';
 
 //icons
-import {MdShoppingBasket} from 'react-icons/md';
+import {MdShoppingBasket,MdLogout,MdAdd} from 'react-icons/md';
 
  const Header = () => {
 
+  const [isMenu, setIsMenu] = useState(false);
   
   const {loginPopUpGoogle} = useLoginGoogleFireBase()
 
   const [{ user }, dispatch] = useStateValue();
 
-  console.log(user)
-
   const login = async () => {
       
+      if(!user){
+
       const dataUser = await loginPopUpGoogle();
+
       const {refreshToken, providerData} = dataUser;
-      
+
       dispatch({
         type: actionType.SET_USER,
         user: providerData[0],
       });
       sessionStorage.setItem("user", JSON.stringify(providerData[0]));
-    
-    } 
+    } else {
+      setIsMenu(!isMenu);
+    }
+
+  } 
+
+  const logout = () => {
+
+    setIsMenu(false);
+    sessionStorage.clear();
+
+    dispatch({
+      type: actionType.SET_USER,
+      user: null,
+    });
+
+    setIsMenu(!isMenu);
+
+  };
 
   return (
     <header className="fixed z-50 w-screen p-3 px-4 md:p-6 md:px-16 bg-primary">
@@ -46,7 +67,11 @@ import {MdShoppingBasket} from 'react-icons/md';
       </Link>
 
       <div className="flex items-center gap-8">
-        <ul className="flex items-center gap-24 "
+        <motion.ul  
+        initial={{ opacity: 0, x: 200 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: 200 }}
+        className="flex items-center gap-24 "
         >
           <li className="text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
             Home
@@ -60,7 +85,7 @@ import {MdShoppingBasket} from 'react-icons/md';
           <li className="text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
             Service
           </li>
-        </ul>
+        </motion.ul>
 
         <div className="relative flex items-center justify-center">
           <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer" />
@@ -79,6 +104,32 @@ import {MdShoppingBasket} from 'react-icons/md';
           alt="userprofile"
           onClick={() => login()}
           />
+          {isMenu && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.6 }}
+                className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute top-12 right-0"
+              >
+                {user && user.email === "maciasnajeraj@gmail.com" && (
+                  <Link to={"/createItem"}>
+                    <p
+                      className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                      onClick={() => setIsMenu(false)}
+                    >
+                      New Item <MdAdd />
+                    </p>
+                  </Link>
+                )}
+
+                <p
+                  className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                  onClick={logout}
+                >
+                  Logout <MdLogout />
+                </p>
+              </motion.div>
+            )}
         </div>
       </div>
     </div>
@@ -102,6 +153,60 @@ import {MdShoppingBasket} from 'react-icons/md';
           alt="userprofile"
           onClick={() => login()}
           />
+          {isMenu && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.6 }}
+                className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute top-12 right-0"
+              >
+                {user && user.email === "maciasnajeraj@gmail.com" && (
+                  <Link to={"/createItem"}>
+                    <p
+                      className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                      onClick={() => setIsMenu(false)}
+                    >
+                      New Item <MdAdd />
+                    </p>
+                  </Link>
+                )}
+
+<ul className="flex flex-col ">
+                <li
+                  className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-100 px-4 py-2"
+                  onClick={() => setIsMenu(false)}
+                >
+                  Home
+                </li>
+                <li
+                  className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-100 px-4 py-2"
+                  onClick={() => setIsMenu(false)}
+                >
+                  Menu
+                </li>
+                <li
+                  className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-100 px-4 py-2"
+                  onClick={() => setIsMenu(false)}
+                >
+                  About Us
+                </li>
+                <li
+                  className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-100 px-4 py-2"
+                  onClick={() => setIsMenu(false)}
+                >
+                  Service
+                </li>
+              </ul>
+
+
+                <p
+                  className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                  onClick={logout}
+                >
+                  Logout <MdLogout />
+                </p>
+              </motion.div>
+            )}
         </div>
     </div>
   </header>
