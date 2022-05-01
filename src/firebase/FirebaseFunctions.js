@@ -6,7 +6,7 @@ import {
     query,
     setDoc,
   } from "firebase/firestore";
-  import { firestore } from "../firebase/firebase.config";
+  import { firestore } from "./firebase.config";
   
   // Saving new Item
   export const saveItem = async (data) => {

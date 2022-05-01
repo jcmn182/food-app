@@ -3,7 +3,7 @@
 //import React, { useEffect, useRef, useState } from "react";
 //components
 import {HomeCointainer} from './HomeCointainer'
-//import MenuContainer from "./MenuContainer";
+import {MenuContainer} from "./MenuContainer";
 //import CartContainer from "./CartContainer";
 //import RowContainer from "./RowContainer";
 //framer motion
@@ -52,7 +52,7 @@ const MainContainer = () => {
         />*/}
       </section>
 
-      {/*<MenuContainer />*/}
+      <MenuContainer />
 
       {/*cartShow && <CartContainer />*/}
     </div>
