@@ -30,7 +30,7 @@ import {MdShoppingBasket,MdLogout,MdAdd} from 'react-icons/md';
 
       const dataUser = await loginPopUpGoogle();
 
-      const {refreshToken, providerData} = dataUser;
+      const {providerData} = dataUser;
 
       dispatch({
         type: actionType.SET_USER,

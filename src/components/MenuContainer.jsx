@@ -1,14 +1,42 @@
-import { useState } from "react";
+import { useState} from "react";
 import { IoFastFood } from "react-icons/io5";
 import { categories } from "../utils/data";
 import { motion } from "framer-motion";
 import {RowContainer} from "./RowContainer";
 import { useStateValue } from "../context/stateProvider";
+import { actionType } from "../context/reducer";
+import {useGetItemsFromFireBase} from '../Hooks/firebaseHooks/useGetItemsFromFireBase';
+
 
 export const MenuContainer = () => {
-  const [filter, setFilter] = useState("chicken");
 
-  const [{ foodItems },] = useStateValue();
+ const {getAllFoodItems} = useGetItemsFromFireBase()
+
+  const [filter, setFilter] = useState("");
+
+  const [{ foodItems }, dispatch] = useStateValue();
+
+  const dataFood = sessionStorage.getItem("dataFood");
+
+  const setDataMenu = async (param) => {
+
+    if (!foodItems || foodItems !== dataFood  ) {
+
+      const data = await getAllFoodItems();
+      const {dataFood} = data;
+      
+      dispatch({
+        type: actionType.SET_FOOD_ITEMS,
+        foodItems: dataFood,
+      });
+      console.log(dataFood)
+      sessionStorage.setItem("dataFood", JSON.stringify(dataFood));
+    }
+    
+    setFilter(param)
+
+  }
+  
 
   return (
     <section className="w-full my-6" id="menu">
@@ -26,7 +54,7 @@ export const MenuContainer = () => {
                 className={`group ${
                   filter === category.urlParamName ? "bg-cartNumBg" : "bg-card"
                 } w-24 min-w-[94px] h-28 cursor-pointer rounded-lg drop-shadow-xl flex flex-col gap-3 items-center justify-center hover:bg-cartNumBg `}
-                onClick={() => setFilter(category.urlParamName)}
+                onClick={() => setDataMenu(category.urlParamName)}
               >
                 <div
                   className={`w-10 h-10 rounded-full shadow-lg ${

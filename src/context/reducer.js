@@ -9,6 +9,7 @@ export const actionType = {
     // console.log(action);
   
     switch (action.type) {
+      
       case actionType.SET_USER:
         return {
           ...state,

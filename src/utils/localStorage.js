@@ -6,3 +6,12 @@ export const localStorageUser = () => {
   
     return userInfo;
   };
+
+export const fetchdataFood = () => {
+    const dataFood =
+    sessionStorage.getItem("dataFood") !== "undefined"
+        ? JSON.parse(sessionStorage.getItem("dataFood"))
+        : sessionStorage.clear();
+  
+    return dataFood
+  };
