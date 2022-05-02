@@ -15,3 +15,12 @@ export const fetchdataFood = () => {
   
     return dataFood
   };
+
+export const fetchCart = () => {
+    const cartInfo =
+    sessionStorage.getItem("cartItems") !== "undefined"
+        ? JSON.parse(sessionStorage.getItem("cartItems"))
+        : sessionStorage.clear();
+  
+    return cartInfo ? cartInfo : [];
+  };
