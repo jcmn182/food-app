@@ -32,6 +32,7 @@ export const CartCointainer = () => {
     }, 0);
     setTot(totalPrice);
     console.log(tot);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tot, flag]);
 
   const clearCart = () => {
